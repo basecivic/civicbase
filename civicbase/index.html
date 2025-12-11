@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Civic Base AI - Sovereign AI for the Public Sector</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-black: #050505; 
+            --bg-panel: #0a0a0a;
+            --bg-card: #111111;
+            --text-white: #E5E5E5; 
+            --text-gray: #A0A0A0;
+            --mint-green: #32D7AF;
+            --mint-green-dark: #2aa88f;
+            --mint-glow: rgba(50, 215, 175, 0.1);
+            --mint-glow-strong: rgba(50, 215, 175, 0.3);
+            --border-color: rgba(50, 215, 175, 0.2);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--text-white);
+            font-family: 'DM Sans', 'Inter', sans-serif;
+            background-image: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(50, 215, 175, 0.08), transparent),
+                linear-gradient(to right, rgba(50, 215, 175, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(50, 215, 175, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
+        }
+      
+        .mint-glow {
+            transition: all 0.3s ease;
+        }
+        .mint-glow:hover {
+            box-shadow: 0 0 30px var(--mint-glow-strong), 0 0 15px var(--mint-glow);
+            border-color: rgba(50, 215, 175, 0.5);
+        }
+       
+        .gradient-text {
+            background: linear-gradient(135deg, var(--text-white) 40%, var(--mint-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+       
+        .hero-logo {
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 800;
+            color: var(--text-white);
+            letter-spacing: -0.03em;
+        }
+
+        @media (min-width: 768px) {
+            .hero-logo { font-size: 5.5rem; }
+        }
+
+        @media (min-width: 1024px) {
+            .hero-logo { font-size: 7rem; }
+        }
+
+        .hero-letter-i {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-dot {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0em;
+            width: 0.18em;
+            height: 0.18em;
+            border-radius: 9999px;
+            background-color: var(--mint-green);
+            box-shadow: 0 0 12px var(--mint-green), 0 0 24px var(--mint-green);
+            animation: hero-dot-pulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes hero-dot-pulse {
+            0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.3); }
+        }
+
+        /* Demo Preview Styles */
+        .demo-preview {
+            background: var(--bg-panel);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .demo-preview:hover {
+            border-color: var(--border-color);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px var(--mint-glow);
+        }
+
+        .demo-header {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .demo-content {
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            min-height: 180px;
+        }
+
+        /* Chat Demo Styles */
+        .mini-chat-msg {
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 9px;
+            line-height: 1.4;
+        }
+
+        .mini-chat-user {
+            background: #1a1a1a;
+            margin-left: 20%;
+            color: var(--text-gray);
+        }
+
+        .mini-chat-ai {
+            background: linear-gradient(135deg, rgba(50, 215, 175, 0.1) 0%, rgba(50, 215, 175, 0.05) 100%);
+            border: 1px solid rgba(50, 215, 175, 0.2);
+            margin-right: 20%;
+        }
+
+        .citation {
+            color: var(--mint-green);
+            font-size: 7px;
+            vertical-align: super;
+        }
+
+        /* Audit Demo Styles */
+        .mini-table {
+            width: 100%;
+            font-size: 8px;
+        }
+
+        .mini-table th {
+            text-align: left;
+            color: var(--text-gray);
+            padding: 4px 6px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-weight: 500;
+        }
+
+        .mini-table td {
+            padding: 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .status-authorized { color: var(--mint-green); }
+        .status-blocked { color: #ef4444; }
+
+        /* Hardware Demo Styles */
+        .server-rack {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4px;
+            padding: 12px;
+            background: #0d0d0d;
+            border-radius: 6px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .drive-bay {
+            height: 16px;
+            background: #1a1a1a;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .drive-bay::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--mint-green);
+            animation: blink 1.5s ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; box-shadow: 0 0 6px var(--mint-green); }
+        }
+
+        /* Terminal Styles */
+        .mini-terminal {
+            background: #0a0a0a;
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 8px;
+            color: var(--mint-green);
+            line-height: 1.6;
+        }
+
+        /* Policy Demo Styles */
+        .policy-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            background: #0d0d0d;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            font-size: 9px;
+        }
+
+        .toggle-switch {
+            width: 28px;
+            height: 14px;
+            background: var(--mint-green);
+            border-radius: 7px;
+            position: relative;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .toggle-switch.off {
+            background: #333;
+        }
+
+        .toggle-switch.off::after {
+            right: auto;
+            left: 2px;
+        }
+
+        /* KPI Card Styles */
+        .kpi-card {
+            background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .kpi-value {
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .kpi-label {
+            font-size: 9px;
+            color: var(--text-gray);
+            margin-top: 4px;
+        }
+
+        /* Pulse Animation */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--mint-green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(50, 215, 175, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(50, 215, 175, 0); }
+        }
+
+        /* Credential badges */
+        .credential-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-gray);
+            transition: all 0.3s ease;
+        }
+
+        .credential-badge:hover {
+            border-color: var(--border-color);
+            color: var(--text-white);
+        }
+
+        .credential-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(50, 215, 175, 0.1);
+            border-radius: 4px;
+            color: var(--mint-green);
+            font-weight: 700;
+            font-size: 10px;
+        }
+
+        /* Stats counter animation */
+        .stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--mint-green);
+        }
+
+        /* Floating badge */
+        .floating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(50, 215, 175, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--mint-green);
+            }
+
+        /* Section divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-[var(--bg-black)]/80 border-b border-[var(--border-subtle)]">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl md:text-3xl font-bold tracking-tight">
+                <span class="text-[var(--mint-green)]">Civic</span><span class="text-[var(--text-white)]"> Base</span>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#platform" class="text-sm text-[var(--text-gray)] hover:text-[var(--text-white)] transition-colors">Platform</a>
+                <a href="#capabilities" class="text-sm text-[var(--text-gray)] hover:text-[var(--text-white)] transition-colors">Capabilities</a>
+                <a href="#security" class="text-sm text-[var(--text-gray)] hover:text-[var(--text-white)] transition-colors">Security</a>
+                <a href="#contact" class="text-sm text-[var(--text-gray)] hover:text-[var(--text-white)] transition-colors">Contact</a>
+            </div>
+            
+            <a href="https://calendly.com/basecivic/30min" class="hidden md:block bg-[var(--mint-green)] text-black font-semibold px-5 py-2.5 rounded-lg text-sm mint-glow border border-[var(--mint-green-dark)] hover:bg-[var(--mint-green-dark)] transition-all">
+                Request Briefing
+            </a>
+        </nav>
+    </header>
+
+    <main class="pt-20">
+
+        <!-- Hero Section -->
+        <section class="min-h-screen flex items-center justify-center text-center px-6 py-24 relative overflow-hidden">
+            <div class="absolute inset-0 m-auto h-[400px] w-[70%] max-w-2xl rounded-full bg-[var(--mint-green)] opacity-[0.03] blur-[120px]"></div>
+            
+            <div class="relative z-10 max-w-5xl mx-auto">
+                <div class="floating-badge mb-8">
+                    <span class="pulse-dot"></span>
+                    PRODUCTION-READY • ISO 27001 COMPLIANT
+                </div>
+                
+                <h1 class="hero-logo mb-8">
+                    C<span class="hero-letter-i">ı<span class="hero-dot"></span></span>v<span class="hero-letter-i">ı<span class="hero-dot"></span></span>c Base AI
+                </h1>
+                
+                <p class="text-lg md:text-xl max-w-3xl mx-auto text-[var(--text-gray)] leading-relaxed mb-4">
+                    Enterprise-grade AI infrastructure for sovereign institutions.
+                </p>
+                <p class="text-base max-w-2xl mx-auto text-[var(--text-gray)] opacity-80">
+                    Air-gapped deployment. Local model inference. Full audit compliance. Your data never leaves your control.
+                </p>
+                
+                <div class="mt-12 flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#platform" class="bg-transparent border border-[var(--border-color)] text-[var(--text-white)] font-medium px-8 py-3.5 rounded-lg transition-all hover:bg-[var(--mint-glow)] hover:border-[var(--mint-green)]">
+                        View Platform
+                    </a>
+                    <a href="https://calendly.com/basecivic/30min" class="bg-[var(--mint-green)] text-black font-semibold px-8 py-3.5 rounded-lg mint-glow shadow-xl shadow-[var(--mint-glow)] border border-[var(--mint-green-dark)] hover:bg-[var(--mint-green-dark)] transition-all">
+                        Schedule Secure Briefing
+                    </a>
+                </div>
+
+                <!-- Trust indicators -->
+                <div class="mt-16 flex flex-wrap justify-center gap-6 text-sm text-[var(--text-gray)]">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-[var(--mint-green)]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        Full-stack AI Cybersecurity
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-[var(--mint-green)]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        RBAC + SSO
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-[var(--mint-green)]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        Full Audit Logging
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-[var(--mint-green)]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        Open-Weight Models
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Platform Preview Section -->
+        <section id="platform" class="py-24 container mx-auto px-6">
+            <div class="text-center mb-16">
+                <p class="text-sm text-[var(--mint-green)] font-medium tracking-wider uppercase mb-4">Live Platform</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Completely Sovereign AI Stack</h2>
+                <p class="text-[var(--text-gray)] max-w-2xl mx-auto">
+                    From secure document ingestion to policy-controlled inference. Every component designed for government-grade security.
+            </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                
+                <!-- Chat Demo Preview -->
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-dot bg-[#ff5f57]"></div>
+                        <div class="demo-dot bg-[#febc2e]"></div>
+                        <div class="demo-dot bg-[#28c840]"></div>
+                        <span class="text-[10px] text-[var(--text-gray)] ml-2 font-mono">SOVEREIGN_CHAT_v2.1</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="mini-chat-user">
+                            What are the Q3 subsidy eligibility requirements?
+                        </div>
+                        <div class="mini-chat-ai">
+                            Based on <span class="text-[var(--mint-green)]">Policy Annex B-4</span><span class="citation">[1]</span>, eligibility requires registered status and documentation per the 2024 guidelines<span class="citation">[2]</span>...
+                            <div class="mt-2 pt-2 border-t border-[var(--border-subtle)]">
+                                <span class="text-[7px] text-[var(--text-gray)]">◆ 2 sources cited • Verified</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 mt-3 p-2 bg-[#0d0d0d] rounded border border-[var(--border-subtle)]">
+                            <span class="text-[8px] text-[var(--text-gray)]">Type query...</span>
+                            <span class="ml-auto w-1.5 h-3 bg-[var(--mint-green)] animate-pulse"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Audit Demo Preview -->
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-dot bg-[#ff5f57]"></div>
+                        <div class="demo-dot bg-[#febc2e]"></div>
+                        <div class="demo-dot bg-[#28c840]"></div>
+                        <span class="text-[10px] text-[var(--text-gray)] ml-2 font-mono">AUDIT_WATCHTOWER</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            <div class="kpi-card">
+                                <div class="kpi-value text-[var(--mint-green)]">100%</div>
+                                <div class="kpi-label">Trust Score</div>
+                            </div>
+                            <div class="kpi-card">
+                                <div class="kpi-value text-[var(--text-white)]">0</div>
+                                <div class="kpi-label">Threats</div>
+                            </div>
+                        </div>
+                        <table class="mini-table">
+                            <thead>
+                                <tr>
+                                    <th>TIME</th>
+                                    <th>USER</th>
+                                    <th>STATUS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-[var(--text-gray)]">10:42</td>
+                                    <td>Dir. Hassan</td>
+                                    <td class="status-authorized">AUTH</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-[var(--text-gray)]">10:38</td>
+                                    <td>Analyst K.</td>
+                                    <td class="status-authorized">AUTH</td>
+                                </tr>
+                                <tr>
+                                    <td class="text-[var(--text-gray)]">10:35</td>
+                                    <td>Guest_01</td>
+                                    <td class="status-blocked">BLOCK</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Hardware Demo Preview -->
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-dot bg-[#ff5f57]"></div>
+                        <div class="demo-dot bg-[#febc2e]"></div>
+                        <div class="demo-dot bg-[#28c840]"></div>
+                        <span class="text-[10px] text-[var(--text-gray)] ml-2 font-mono">EDGE_NODE_CTRL</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[9px] text-[var(--text-gray)]">GPU-0: NVIDIA A100</span>
+                            <span class="text-[9px] text-[var(--mint-green)]">ACTIVE</span>
+                        </div>
+                        <div class="server-rack mb-3">
+                            <div class="drive-bay" style="--delay: 0s"></div>
+                            <div class="drive-bay" style="--delay: 0.3s"></div>
+                            <div class="drive-bay" style="--delay: 0.6s"></div>
+                            <div class="drive-bay" style="--delay: 0.9s"></div>
+                            <div class="drive-bay" style="--delay: 1.2s"></div>
+                            <div class="drive-bay" style="--delay: 0.4s"></div>
+                            <div class="drive-bay" style="--delay: 0.7s"></div>
+                            <div class="drive-bay" style="--delay: 1s"></div>
+                        </div>
+                        <div class="mini-terminal">
+                            <div>> nvidia-smi OK</div>
+                            <div>> Model: Llama-3-70B-Q8</div>
+                            <div>> VRAM: 78% utilized</div>
+                            <div class="opacity-50">> Awaiting inference...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ingestion Demo Preview -->
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-dot bg-[#ff5f57]"></div>
+                        <div class="demo-dot bg-[#febc2e]"></div>
+                        <div class="demo-dot bg-[#28c840]"></div>
+                        <span class="text-[10px] text-[var(--text-gray)] ml-2 font-mono">KNOWLEDGE_VAULT</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="text-[8px] text-[var(--text-gray)] mb-2">ENCRYPTED INDEX: 4.2 TB • AES-256</div>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 p-2 bg-[#0d0d0d] rounded border border-[var(--border-subtle)]">
+                                <span class="text-[8px]">📄 Policy_Annex_2024.pdf</span>
+                                <span class="ml-auto text-[7px] text-[var(--mint-green)]">✓ INDEXED</span>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-[#0d0d0d] rounded border border-[var(--mint-green)]">
+                                <span class="text-[8px]">📄 Budget_Q3.xlsx</span>
+                                <div class="ml-auto flex-1 max-w-[60px] h-1.5 bg-[#1a1a1a] rounded overflow-hidden">
+                                    <div class="h-full bg-[var(--mint-green)] animate-pulse" style="width: 65%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 p-2 bg-[#0d0d0d] rounded border border-red-900">
+                                <span class="text-[8px]">📦 unknown.zip</span>
+                                <span class="ml-auto text-[7px] text-red-500">⚠ BLOCKED</span>
+            </div>
+                        </div>
+                        </div>
+                    </div>
+                    
+                <!-- Policy Demo Preview -->
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-dot bg-[#ff5f57]"></div>
+                        <div class="demo-dot bg-[#febc2e]"></div>
+                        <div class="demo-dot bg-[#28c840]"></div>
+                        <span class="text-[10px] text-[var(--text-gray)] ml-2 font-mono">POLICY_PROTOCOL</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="text-[8px] text-[var(--text-gray)] mb-2 uppercase tracking-wider">Sovereign Guidelines</div>
+                        <div class="policy-toggle">
+                            <span>Data Retention Policy</span>
+                            <div class="toggle-switch"></div>
+                        </div>
+                        <div class="policy-toggle">
+                            <span>Procurement Secrecy</span>
+                            <div class="toggle-switch"></div>
+                        </div>
+                        <div class="policy-toggle">
+                            <span>External API Access</span>
+                            <div class="toggle-switch off"></div>
+                        </div>
+                        <div class="mt-3 p-2 bg-red-950/30 border border-red-900/50 rounded text-[8px] text-red-400">
+                            ⚠ VIOLATION BLOCKED: Policy constraint triggered
+                        </div>
+                    </div>
+                        </div>
+                        
+                <!-- System Status Preview -->
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-dot bg-[#ff5f57]"></div>
+                        <div class="demo-dot bg-[#febc2e]"></div>
+                        <div class="demo-dot bg-[#28c840]"></div>
+                        <span class="text-[10px] text-[var(--text-gray)] ml-2 font-mono">SYS_STATUS</span>
+                    </div>
+                    <div class="demo-content">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="text-center">
+                                <div class="text-xl font-bold text-[var(--mint-green)] font-mono">4ms</div>
+                                <div class="text-[8px] text-[var(--text-gray)]">Latency</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-xl font-bold text-[var(--text-white)] font-mono">99.9%</div>
+                                <div class="text-[8px] text-[var(--text-gray)]">Uptime</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-center gap-2 text-[9px]">
+                                <span class="pulse-dot"></span>
+                                <span>Auth Service</span>
+                                <span class="ml-auto text-[var(--mint-green)]">RUNNING</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-[9px]">
+                                <span class="pulse-dot"></span>
+                                <span>Vector Store</span>
+                                <span class="ml-auto text-[var(--mint-green)]">RUNNING</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-[9px]">
+                                <span class="pulse-dot"></span>
+                                <span>LLM Inference</span>
+                                <span class="ml-auto text-[var(--mint-green)]">RUNNING</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-[9px]">
+                                <span class="pulse-dot"></span>
+                                <span>Audit Logger</span>
+                                <span class="ml-auto text-[var(--mint-green)]">RUNNING</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Capabilities Section -->
+        <section id="capabilities" class="py-24 container mx-auto px-6">
+            <div class="text-center mb-16">
+                <p class="text-sm text-[var(--mint-green)] font-medium tracking-wider uppercase mb-4">Architecture</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Built for Real Constraints</h2>
+                <p class="text-[var(--text-gray)] max-w-2xl mx-auto">
+                    Designed from the ground up for environments where security isn't optional and nothing is guaranteed.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                <div class="p-6 border border-[var(--border-subtle)] rounded-xl hover:border-[var(--border-color)] transition-all">
+                    <div class="w-10 h-10 rounded-lg bg-[var(--mint-glow)] flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-[var(--mint-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Fully Air-Gapped</h3>
+                    <p class="text-sm text-[var(--text-gray)]">Complete offline operation. Zero external dependencies. Your network, your rules.</p>
+                </div>
+
+                <div class="p-6 border border-[var(--border-subtle)] rounded-xl hover:border-[var(--border-color)] transition-all">
+                    <div class="w-10 h-10 rounded-lg bg-[var(--mint-glow)] flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-[var(--mint-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Local Inference</h3>
+                    <p class="text-sm text-[var(--text-gray)]">Llama 3, Mistral, and other open-weight models. GPU-optimized. No API keys required.</p>
+                </div>
+
+                <div class="p-6 border border-[var(--border-subtle)] rounded-xl hover:border-[var(--border-color)] transition-all">
+                    <div class="w-10 h-10 rounded-lg bg-[var(--mint-glow)] flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-[var(--mint-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Enterprise SSO</h3>
+                    <p class="text-sm text-[var(--text-gray)]">Keycloak integration. SAML/OIDC. CAC/PIV capable. Role-based access control.</p>
+                </div>
+
+                <div class="p-6 border border-[var(--border-subtle)] rounded-xl hover:border-[var(--border-color)] transition-all">
+                    <div class="w-10 h-10 rounded-lg bg-[var(--mint-glow)] flex items-center justify-center mb-4">
+                        <svg class="w-5 h-5 text-[var(--mint-green)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                    </div>
+                    <h3 class="font-semibold mb-2">Immutable Audit</h3>
+                    <p class="text-sm text-[var(--text-gray)]">Every query logged. Every response traced. Complete accountability chain.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Security Section -->
+        <section id="security" class="py-24 bg-gradient-to-b from-[#080808] to-[var(--bg-black)]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <p class="text-sm text-[var(--mint-green)] font-medium tracking-wider uppercase mb-4">Security First</p>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Government-Grade by Default</h2>
+                    <p class="text-[var(--text-gray)] max-w-2xl mx-auto">
+                        Not an afterthought. Security is the foundation of every architectural decision.
+                    </p>
+                </div>
+
+                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)]">
+                            <div class="w-8 h-8 rounded bg-[var(--mint-glow)] flex items-center justify-center flex-shrink-0">
+                                <span class="text-[var(--mint-green)] text-sm">✓</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">TLS Everywhere</h4>
+                                <p class="text-sm text-[var(--text-gray)]">End-to-end encryption for all communications. No exceptions.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)]">
+                            <div class="w-8 h-8 rounded bg-[var(--mint-glow)] flex items-center justify-center flex-shrink-0">
+                                <span class="text-[var(--mint-green)] text-sm">✓</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Path Traversal Protection</h4>
+                                <p class="text-sm text-[var(--text-gray)]">Hardened file handling. No directory escape vulnerabilities.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)]">
+                            <div class="w-8 h-8 rounded bg-[var(--mint-glow)] flex items-center justify-center flex-shrink-0">
+                                <span class="text-[var(--mint-green)] text-sm">✓</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Container Isolation</h4>
+                                <p class="text-sm text-[var(--text-gray)]">Docker deployment with Kubernetes support. Process-level isolation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4 p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)]">
+                            <div class="w-8 h-8 rounded bg-[var(--mint-glow)] flex items-center justify-center flex-shrink-0">
+                                <span class="text-[var(--mint-green)] text-sm">✓</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">AES-256 Encryption</h4>
+                                <p class="text-sm text-[var(--text-gray)]">Data at rest encrypted with military-grade standards.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)]">
+                            <div class="w-8 h-8 rounded bg-[var(--mint-glow)] flex items-center justify-center flex-shrink-0">
+                                <span class="text-[var(--mint-green)] text-sm">✓</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Policy-as-Code Guardrails</h4>
+                                <p class="text-sm text-[var(--text-gray)]">Configurable constraints. Automatic violation detection.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)]">
+                            <div class="w-8 h-8 rounded bg-[var(--mint-glow)] flex items-center justify-center flex-shrink-0">
+                                <span class="text-[var(--mint-green)] text-sm">✓</span>
+                            </div>
+                            <div>
+                                <h4 class="font-medium mb-1">Zero Data Exfiltration</h4>
+                                <p class="text-sm text-[var(--text-gray)]">No telemetry. No external calls. Complete network isolation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="section-divider"></div>
+
+        <!-- Experience Section (formerly Team) -->
+        <section id="experience" class="py-24 container mx-auto px-6">
+            <div class="text-center mb-16">
+                <p class="text-sm text-[var(--mint-green)] font-medium tracking-wider uppercase mb-4">Our Background</p>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Built With Experience From</h2>
+                <p class="text-[var(--text-gray)] max-w-2xl mx-auto">
+                    Our team brings deep expertise from the intersection of technology, policy, and international governance.
+                </p>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto mb-16">
+                <div class="credential-badge">
+                    <div class="credential-icon">UN</div>
+                    <span>United Nations</span>
+                </div>
+                <div class="credential-badge">
+                    <div class="credential-icon">⚖</div>
+                    <span>U.S. Congress</span>
+                </div>
+                <div class="credential-badge">
+                    <div class="credential-icon">◆</div>
+                    <span>World Economic Forum</span>
+                </div>
+                <div class="credential-badge">
+                    <div class="credential-icon">◎</div>
+                    <span>OECD</span>
+                </div>
+                <div class="credential-badge">
+                    <div class="credential-icon">★</div>
+                    <span>African Union</span>
+                </div>
+                <div class="credential-badge">
+                    <div class="credential-icon">◇</div>
+                    <span>UNESCO</span>
+                </div>
+                <div class="credential-badge">
+                    <div class="credential-icon">▲</div>
+                    <span>USAID</span>
+                </div>
+                <div class="credential-badge">
+                    <div class="credential-icon">⬡</div>
+                    <span>Amazon</span>
+                </div>
+            </div>
+
+            <div class="max-w-3xl mx-auto text-center">
+                <p class="text-lg text-[var(--text-gray)] leading-relaxed">
+                    We understand the unique challenges of deploying technology for public clients—regulatory complexity, infrastructure constraints, and the critical importance of trust. Our platform is built by people who have navigated these environments firsthand and want to help you draft and execute your first AI contract.
+                </p>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Tech Stack Section -->
+        <section class="py-24 bg-gradient-to-b from-[var(--bg-black)] to-[#080808]">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <p class="text-sm text-[var(--mint-green)] font-medium tracking-wider uppercase mb-4">Technology</p>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Open & Auditable</h2>
+                    <p class="text-[var(--text-gray)] max-w-2xl mx-auto">
+                        No black boxes. We build on proven, open-source foundations you can inspect and trust. The cutting-edge is always changing, but here's what we're implementing right now:
+                </p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">Runtime</div>
+                        <div class="text-sm text-[var(--text-gray)]">Node.js / Docker</div>
+                    </div>
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">Auth</div>
+                        <div class="text-sm text-[var(--text-gray)]">Keycloak SSO</div>
+                    </div>
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">Inference</div>
+                        <div class="text-sm text-[var(--text-gray)]">Ollama / vLLM</div>
+                    </div>
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">Models</div>
+                        <div class="text-sm text-[var(--text-gray)]">Llama 3 / Mistral</div>
+                    </div>
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">Database</div>
+                        <div class="text-sm text-[var(--text-gray)]">SQLite / Postgres</div>
+                    </div>
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">Vectors</div>
+                        <div class="text-sm text-[var(--text-gray)]">Embedded Search</div>
+                    </div>
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">OS</div>
+                        <div class="text-sm text-[var(--text-gray)]">Ubuntu / RHEL</div>
+                    </div>
+                    <div class="p-4 bg-[var(--bg-panel)] rounded-lg border border-[var(--border-subtle)] text-center">
+                        <div class="text-[var(--mint-green)] font-mono text-sm mb-1">Orchestration</div>
+                        <div class="text-sm text-[var(--text-gray)]">K8s Ready</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section id="contact" class="py-32 text-center container mx-auto px-6">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">
+                    How Can AI Serve Your Public Interests?
+                </h2>
+            <p class="text-lg text-[var(--text-gray)] max-w-xl mx-auto mb-10">
+                    Are you a decisionmaker in the public sector struggling to implement AI? Let's discuss your requirements and vision in a confidential briefing. No data compromise or commitment necessary.
+            </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="https://calendly.com/basecivic/30min" class="bg-[var(--mint-green)] text-black font-semibold text-lg px-10 py-4 rounded-lg mint-glow shadow-2xl shadow-[var(--mint-glow-strong)] border border-[var(--mint-green-dark)] hover:bg-[var(--mint-green-dark)] transition-all">
+                        Schedule a Briefing
+                    </a>
+                    <a href="mailto:press@civicbase.ai" class="border border-[var(--border-color)] text-[var(--text-white)] font-medium px-10 py-4 rounded-lg transition-all hover:bg-[var(--mint-glow)]">
+                        Contact Us
+                    </a>
+                </div>
+                
+                <div class="mt-16 pt-8 border-t border-[var(--border-subtle)]">
+                    <p class="text-sm text-[var(--text-gray)] font-mono">
+                        ISO 27001 ALIGNED • SOC 2 TYPE II READY • GDPR COMPLIANT
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[var(--border-subtle)] bg-[#080808]">
+        <div class="container mx-auto px-6 py-12">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="text-center md:text-left">
+                    <a href="#" class="text-xl font-bold">
+                        <span class="text-[var(--mint-green)]">Civic</span><span class="text-[var(--text-white)]"> Base</span>
+                </a>
+                    <p class="text-sm text-[var(--text-gray)] mt-2">Sovereign AI for the Public Sector</p>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-[var(--text-gray)]">
+                    <a href="#platform" class="hover:text-[var(--text-white)] transition-colors">Platform</a>
+                    <a href="#capabilities" class="hover:text-[var(--text-white)] transition-colors">Capabilities</a>
+                    <a href="#security" class="hover:text-[var(--text-white)] transition-colors">Security</a>
+                    <a href="#contact" class="hover:text-[var(--text-white)] transition-colors">Contact</a>
+                </div>
+
+                <div class="text-center md:text-right">
+                    <p class="text-sm text-[var(--text-gray)]">&copy; 2025 Civic Base AI</p>
+                    <a href="mailto:press@civicbase.ai" class="text-sm text-[var(--mint-green)] hover:text-[var(--text-white)] transition-colors">
+                        press@civicbase.ai
+                    </a>
+            </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth reveal animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.demo-preview, .credential-badge').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>
