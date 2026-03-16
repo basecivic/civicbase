@@ -102,7 +102,7 @@ export default function Home() {
                 className="max-w-3xl mx-auto space-y-4"
               >
                 <p className="text-xl md:text-2xl text-foreground leading-relaxed font-medium">
-                  The first sovereign AI platform built for public institutions
+                  Building secure AI for the global public sector
                 </p>
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
                   Deploy state-of-the-art AI entirely on-premise. Air-gapped architecture.
